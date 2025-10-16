@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Delta Hotels Marriott City Center Doha</title>
+  <!-- Font Awesome (íconos profesionales) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      margin: 0;
+      background: #D0C7B8; /* Fondo */
+      color: #000000;      /* Texto general */
+    }
+
+    header {
+      background: #141C4C; /* Botones y header */
+      color: #FFFFFF;      /* Texto blanco */
+      padding: 30px 20px;
+      text-align: center;
+      font-size: 26px;
+      font-weight: bold;
+    }
+
+    .welcome {
+      background: url('https://cache.marriott.com/content/dam/marriott-renditions/DOHDC/dohdc-exterior-0137-hor-clsc.jpg') no-repeat center center;
+      background-size: cover;
+      color: black;
+      padding: 80px 20px;
+      text-align: center;
+    }
+
+    .welcome h1 {
+      font-size: 36px;
+      margin-bottom: 10px;
+    }
+
+    .welcome p {
+      font-size: 18px;
+      max-width: 700px;
+      margin: 0 auto;
+    }
+
+    .container {
+      text-align: center;
+      padding: 30px;
+    }
+
+    .btn {
+      display: inline-block;
+      background: #141C4C; /* Color botón */
+      color: #FFFFFF;      /* Letra blanca */
+      padding: 12px 25px;
+      margin: 10px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-size: 18px;
+      border: none;
+      line-height: 1.3;
+      transition: 0.3s ease;
+    }
+
+    .btn:hover {
+      background: #0f1640; /* tono más oscuro al pasar */
+    }
+
+    .section {
+      display: none;
+      margin-top: 20px;
+      padding: 20px;
+    }
+
+    .card {
+      background: #F4F4F4;
+      margin: 15px auto;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0px 4px 8px rgba(0,0,0,0.1);
+      max-width: 600px;
+      text-align: left;
+      color: #000000;
+    }
+
+    .card h3 {
+      color: #141C4C;
+      margin-top: 0;
+    }
+
+    .card p {
+      margin: 5px 0;
+    }
+
+    .back {
+      margin-top: 20px;
+      background: #75787B;
+    }
+
+    /* Icono debajo del texto (dos líneas) */
+    .btn .floor-label { display: block; }
+    .btn .floor-icon {
+      display: block;
+      margin-top: 6px;
+      font-size: 20px;
+      color: #FFFFFF; /* Iconos en azul oscuro */
+      background: transparent;
+    }
+
+    #menu-title { 
+      margin-bottom: 12px; 
+      font-weight: 600; 
+      color: #1C1C1C; 
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Encabezado -->
+  <header>Delta Hotels by Marriott City Center Doha</header>
+
+  <!-- Selección de idioma -->
+  <div class="container section" id="language-selection" style="display:block;">
+    <div class="welcome">
+      <h1>Welcome / Добро пожаловать / أهلاً وسهلاً</h1>
+      <p>We are delighted that you have chosen to stay with us. Please select your language to explore our hotel facilities and services.</p>
+    </div>
+
+    <div class="container" style="padding-top:20px;">
+      <button class="btn" onclick="showMenu('en')">English</button>
+      <button class="btn" onclick="showMenu('ru')">Русский</button>
+      <button class="btn" onclick="showMenu('ar')">العربية</button>
+    </div>
+  </div>
+
+  <!-- Menú de pisos -->
+  <div class="container section" id="menu-section">
+    <h2 id="menu-title"></h2>
+    <div id="floor-buttons" style="max-width:900px;margin:0 auto;"></div>
+    <button class="btn back" onclick="goBack()">⬅ Back</button>
+  </div>
+
+  <!-- Sección de información -->
+  <div class="container section" id="info-section">
+    <div class="card">
+      <h3 id="info-title"></h3>
+      <p id="info-text"></p>
+    </div>
+    <button class="btn back" onclick="backToMenu()">⬅ Back to Menu</button>
+  </div>
+
+  <script>
+    let currentLang = 'en';
+
+    const translations = {
+      en: {
+        menuTitle: "Hotel Facilities - Select a Floor",
+        floorNames: {
+          "32": { label: "32nd Floor", icon: "<i class='fa-solid fa-bowl-rice floor-icon'></i>" },
+          "30": { label: "30th Floor", icon: "<i class='fa-solid fa-utensils floor-icon'></i>" },
+          "29": { label: "29th Floor", icon: "<i class='fa-solid fa-champagne-glasses floor-icon'></i>" },
+          "17": { label: "17th Floor", icon: "<i class='fa-solid fa-person-swimming floor-icon'></i>" },
+          "GF": { label: "Ground Floor", icon: "<i class='fa-solid fa-mug-saucer floor-icon'></i>" },
+          "wifi": { label: "WiFi", icon: "<i class='fa-solid fa-wifi floor-icon'></i>" },
+          "phone": { label: "Phone Assistance", icon: "<i class='fa-solid fa-phone floor-icon'></i>" }
+        },
+        floors: {
+          "32": "Irish Cuisine<br><b>Shamrock Tavern</b> (12:00–00:00)<br><b>Shamrock Pub</b> (17:00–02:00)",
+          "30": "<b>Satsuma Restaurant</b> (Pan Asian Cuisine)<br>Breakfast: 06:30–10:30<br>Lunch: 12:30–15:00<br>Dinner: 18:30–22:00",
+          "29": "<b>Goose Lounge</b> (11:00–23:00) <br> Accesible Elite Members (Platinum, Titanium, Ambassador) <br>Access Fee - Non members: 150 QAR/day",
+          "17": "<b>Lotus SPA</b> (10:00–22:00)<br><b>Gym</b> (24/7)<br><b>Swimming Pool</b> (08:00–22:00)",
+          "GF": "<b>Lewiston Café</b> (07:30–23:30)<br><b>Mini Mart</b> (08:00–00:00)",
+          "wifi": " <b>Network:</b> MarriottBonvoy <br> <b>Password:</b> Login with your <b>room number</b> and <b>last name</b> of the reservation.",
+          "phone": "For any assistance, please dial <b>0</b>."
+        }
+      },
+      ru: {
+        menuTitle: "Удобства отеля - Выберите этаж",
+        floorNames: {
+          "32": { label: "32 этаж", icon: "<i class='fa-solid fa-bowl-rice floor-icon'></i>" },
+          "30": { label: "30 этаж", icon: "<i class='fa-solid fa-utensils floor-icon'></i>" },
+          "29": { label: "29 этаж", icon: "<i class='fa-solid fa-champagne-glasses floor-icon'></i>" },
+          "17": { label: "17 этаж", icon: "<i class='fa-solid fa-person-swimming floor-icon'></i>" },
+          "GF": { label: "Первый этаж", icon: "<i class='fa-solid fa-mug-saucer floor-icon'></i>" },
+          "wifi": { label: "WiFi", icon: "<i class='fa-solid fa-wifi floor-icon'></i>" },
+          "phone": { label: "Телефонная помощь", icon: "<i class='fa-solid fa-phone floor-icon'></i>" }
+        },
+        floors: {
+          "32": "Ирландский ресторан<br><b>Shamrock Tavern</b> (12:00–00:00)<br><b>Shamrock Pub</b> (17:00–02:00)",
+          "30": "<b>Ресторан Satsuma</b> (Азиатская кухня)<br>Завтрак: 06:30–10:30<br>Обед: 12:30–15:00<br>Ужин: 18:30–22:00",
+          "29": "<b>Goose Lounge</b> (11:00–23:00)<br> Доступные элитные члены (Платина, Титан, Посол) <br> Плата за доступ - для нечленов: 150 QAR/день",
+          "17": "<b>Lotus SPA</b> (10:00–22:00)<br><b>Спортзал</b> (24/7)<br><b>Бассейн</b> (08:00–22:00)",
+          "GF": "<b>Кафе Lewiston</b> (07:30–23:30)<br><b>Мини-маркет</b> (08:00–00:00)",
+          "wifi": " <b>Сеть:</b> MarriottBonvoy <br> <b>Пароль:</b> Войдите, указав <b>номер комнаты</b> и <b>фамилию</b> основного гостя.",
+          "phone": "Для помощи наберите <b>0</b>."
+        }
+      },
+      ar: {
+        menuTitle: "مرافق الفندق - اختر الطابق",
+        floorNames: {
+          "32": { label: "الطابق 32", icon: "<i class='fa-solid fa-bowl-rice floor-icon'></i>" },
+          "30": { label: "الطابق 30", icon: "<i class='fa-solid fa-utensils floor-icon'></i>" },
+          "29": { label: "الطابق 29", icon: "<i class='fa-solid fa-champagne-glasses floor-icon'></i>" },
+          "17": { label: "الطابق 17", icon: "<i class='fa-solid fa-person-swimming floor-icon'></i>" },
+          "GF": { label: "الطابق الأرضي", icon: "<i class='fa-solid fa-mug-saucer floor-icon'></i>" },
+          "wifi": { label: "الواي فاي", icon: "<i class='fa-solid fa-wifi floor-icon'></i>" },
+          "phone": { label: "المساعدة", icon: "<i class='fa-solid fa-phone floor-icon'></i>" }
+        },
+        floors: {
+          "32": "مطعم أيرلندي<br>(12:00–00:00) <b>Shamrock Tavern</b><br><b>شامروك بب</b> (17:00–02:00)",
+          "30": "<b>مطعم ساتسوما</b> (مأكولات آسيوية)<br>الإفطار: 06:30–10:30<br>الغداء: 12:30–15:00<br>العشاء: 18:30–22:00",
+          "29": "<b>غوس لاونج</b> (11:00–23:00)<br> أعضاء النخبة الذين يمكنهم الدخول (بلاتينيوم، تيتانيوم، سفير) <br>رسوم الدخول - غير الأعضاء: 150 ريال قطري في اليوم",
+          "17": "<b>سبا لوتس</b> (10:00–22:00)<br><b>نادي رياضي</b> (24/7)<br><b>مسبح</b> (08:00–22:00)",
+          "GF": "<b>مقهى لوستون</b> (07:30–23:30)<br><b>ميني مارت</b> (08:00–00:00)",
+          "wifi": " <b>الشبكة:</b> MarriottBonvoy <br> <b>كلمة المرور:</b> تسجيل الدخول باستخدام <b>رقم الغرفة</b> و<b>اسم العائلة</b> للحجز.",
+          "phone": "لأي مساعدة، يرجى الاتصال على <b>0</b>."
+        }
+      }
+    };
+
+    function showMenu(lang) {
+      currentLang = lang;
+      document.getElementById("language-selection").style.display = "none";
+      document.getElementById("menu-section").style.display = "block";
+      document.getElementById("menu-title").innerText = translations[lang].menuTitle;
+
+      const floorButtons = document.getElementById("floor-buttons");
+      floorButtons.innerHTML = "";
+      const order = ["32","30","29","17","GF","wifi","phone"];
+      order.forEach(key => {
+        const b = document.createElement("button");
+        b.className = "btn";
+        const nameObj = translations[lang].floorNames[key];
+        b.innerHTML = "<span class='floor-label'>" + nameObj.label + "</span>" + nameObj.icon;
+        b.onclick = () => showInfo(key);
+        floorButtons.appendChild(b);
+      });
+    }
+
+    function showInfo(floor) {
+      document.getElementById("menu-section").style.display = "none";
+      document.getElementById("info-section").style.display = "block";
+      document.getElementById("info-title").innerText = translations[currentLang].floorNames[floor].label;
+      document.getElementById("info-text").innerHTML = translations[currentLang].floors[floor];
+    }
+
+    function goBack() {
+      document.getElementById("menu-section").style.display = "none";
+      document.getElementById("language-selection").style.display = "block";
+    }
+
+    function backToMenu() {
+      document.getElementById("info-section").style.display = "none";
+      document.getElementById("menu-section").style.display = "block";
+    }
+  </script>
+
+</body>
+</html>
